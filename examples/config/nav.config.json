@@ -1,0 +1,24 @@
+[
+  {
+    "name": "组件",
+    "groups": [
+      {
+        "groupName": "基本组件",
+        "list": [
+          {
+            "path": "/",
+            "title": "helloworld组件"
+          },
+          {
+            "path": "/loading",
+            "title": "loading组件"
+          }
+        ]
+      },
+      {
+        "groupName": "展示组件",
+        "list": []
+      }
+    ]
+  }
+]

@@ -1,7 +1,11 @@
 const path = require('path')
+const config = require('./config');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ESLintWebpackPlugin = require('eslint-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -17,7 +21,10 @@ module.exports = {
     hot: true
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json']
+    extensions: ['.js', '.vue', '.json'],
+    alias: config.alias,
+    // 解析模块时应该搜索的目录
+    modules: ['node_modules'],
   },
   module: {
     rules: [
@@ -37,8 +44,28 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        loader: ['style-loader', 'css-loader']
+        test: /\.(scss|css)$/,
+        use: [
+          isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.md$/,
+        use: [
+          {
+            loader: 'vue-loader',
+            options: {
+              compilerOptions: {
+                preserveWhitespace: false,
+              },
+            },
+          },
+          {
+            loader: path.resolve(__dirname, './md-loader/index.js'),
+          },
+        ],
       },
       {
         test: /\.(svg|otf|ttf|woff2?|eot|gif|png|jpe?g)(\?\S*)?$/,

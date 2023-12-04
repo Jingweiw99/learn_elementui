@@ -1,29 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./logo.png" />
-    <h1>Welcome to My Vue.js UI By WebPack!</h1>
-    <Jsx />
+    <div class="nav">
+      <side-nav :data="navsData"></side-nav>
+    </div>
+    <div class="router-view">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
-import Jsx from './Jsx.vue'
+import navsData from './config/nav.config.json'
 export default {
   name: 'App',
-  components: { Jsx },
-  mounted() {
-    console.log('hello')
+  data() {
+    return {
+      navsData
+    }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  display: flex;
+  .nav {
+    width: 222px;
+  }
+  .router-view {
+    flex: 1;
+  }
 }
 </style>
