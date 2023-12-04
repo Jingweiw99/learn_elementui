@@ -81,3 +81,50 @@ module.exports = {
 
 添加`scripts`之后，运行npm run dev
 
+## babel配置
+
+Babel Plugins分为语法插件和转义插件
+
+插件的短名称：`babel-plugin-myPlugin`等同于`myPlugin`
+
+- 转换插件用于转换你的代码。
+- 语法插件只允许Babel解析(parse)特定类型的语法(而不是转换)。
+
+Babel Presets可以看成是一组预先设定的插件列表集合
+
+预设的短名称：`babel-preset-myPreset`等同于`myPreset`
+
+---
+执行顺序
+
+- Plugins执行顺序在Presets之前
+- Plugins是按照配置项`first to last`
+- Presets是按照配置项`last to first`
+    
+```bash
+npm i @babel/core @babel/cli @babel/preset-env babel-loader@8 babel-plugin-syntax-jsx babel-plugin-transform-vue-jsx -D
+```
+
+---
+`babel.config.json`中
+
+```json
+{
+  "presets": ["@babel/env"],
+  "plugins": ["transform-vue-jsx"]
+}
+```
+
+---
+`webpack.config.js`中添加rules
+
+```js
+  {
+    test: /\.(jsx?|babel|es6)$/,
+    include: process.cwd(),
+    exclude: /node_modules/,
+    loader: 'babel-loader'
+  }
+```
+
+添加测试代码见main.js，Jsx.vue文件

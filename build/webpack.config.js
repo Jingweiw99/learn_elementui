@@ -9,12 +9,23 @@ module.exports = {
     path: path.resolve(process.cwd(), 'dist'),
     filename: 'bundle.js'
   },
-  devServer: {},
+  devServer: {
+    host: '0.0.0.0',
+    port: 8888,
+    publicPath: '/',
+    hot: true
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json']
   },
   module: {
     rules: [
+      {
+        test: /\.(jsx?|babel|es6)$/,
+        include: process.cwd(),
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',

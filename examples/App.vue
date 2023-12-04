@@ -2,17 +2,19 @@
   <div id="app">
     <img alt="Vue logo" src="./logo.png" />
     <h1>Welcome to My Vue.js UI By WebPack!</h1>
+    <Jsx />
   </div>
 </template>
 
 <script>
+import Jsx from './Jsx.vue'
 export default {
-  name: "App",
-  components: {},
+  name: 'App',
+  components: { Jsx },
   mounted() {
     console.log('hello')
   }
-};
+}
 </script>
 
 <style>
