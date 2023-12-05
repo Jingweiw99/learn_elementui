@@ -1,6 +1,8 @@
 # Ignore artifacts:
 build
 coverage
+lib
+docs
 
 # Ignore all files:
 # *.html

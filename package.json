@@ -1,17 +1,27 @@
 {
-  "name": "learn_elementui",
+  "name": "wjw_ui_lib",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A Vue.js 2.X UI Toolkit for Web",
+  "main": "lib/me-vue-ui.common.js",
   "scripts": {
-    "build:docs": "cross-env NODE_ENV=development webpack --config build/webpack.docs.js", 
+    "build:docs": "cross-env NODE_ENV=development webpack --config build/webpack.docs.js",
     "build:dist": "cross-env NODE_ENV=development webpack --config build/webpack.config.js",
+    "build:lib": "webpack --config build/webpack.common.js",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.js",
     "lint": "eslint --ext .vue,.jsx,.js ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "wjw_ui",
+    "vuejs",
+    "components"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jingweiw99/learn_elementui.git"
+  },
+  "author": "wjw",
+  "license": "MIT",
+  "homepage": "https://jingweiw99.github.io/learn_elementui/",
   "devDependencies": {
     "@babel/cli": "^7.23.4",
     "@babel/core": "^7.23.5",
@@ -37,6 +47,7 @@
     "mini-css-extract-plugin": "^0.12.0",
     "node-sass": "^4.14.1",
     "prettier": "^2.8.8",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "sass-loader": "^7.3.1",
     "style-loader": "^2.0.0",
     "transliteration": "^1.6.6",
@@ -51,5 +62,6 @@
   },
   "peerDependencies": {
     "vue": "^2.7.15"
-  }
+  },
+  "dependencies": {}
 }
