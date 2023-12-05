@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build:docs": "cross-env NODE_ENV=development webpack --config build/webpack.docs.js", 
     "build:dist": "cross-env NODE_ENV=development webpack --config build/webpack.config.js",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.js",
     "lint": "eslint --ext .vue,.jsx,.js ."
