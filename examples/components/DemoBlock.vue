@@ -67,6 +67,9 @@
   height: 18px;
   line-height: 18px;
 }
+.demo-block .highlight {
+  margin: 10px;
+}
 .demo-block .highlight pre {
   margin: 0;
 }

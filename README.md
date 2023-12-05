@@ -7,6 +7,7 @@
   - [初始化环境和 webpack 基本配置](#初始化环境和-webpack-基本配置)
   - [babel 配置](#babel-配置)
   - [添加prettier和eslint](#添加prettier和eslint)
+  - [封装loading组件和编写说明文档](#封装loading组件和编写说明文档)
 
 ## 初始化环境和 webpack 基本配置
 
@@ -214,5 +215,136 @@ new ESLintWebpackPlugin({
 ```
 
 这时，在开发环境中如果重新编译就会自动lint修复。鼠标光标失去编辑器的编码区域焦点也会自动修复。
+
+
+## 封装loading组件和编写说明文档
+
+组件封装详见`packages/loading`文件夹，注意需要在出口文件引入并添加一个install方法，方便单独安装，然后导出。
+
+然后`src/index.js`中`
+```js
+import Loading from '../packages/loading/index'
+
+// 导入组件库所有组件
+const components = [Loading]
+
+const install = function (Vue) {
+  if (install.installed) return
+
+  components.forEach((component) => {
+    Vue.component(component.name, component)
+  })
+}
+
+// 自动安装  判断是否用<script scr=''></script>的方式直接引入文件
+if (typeof window.Vue !== 'undefined' && window.Vue) {
+  install(window.Vue)
+}
+
+export default {
+  install,
+  // 具体的组件列表
+  Loading
+}
+```
+
+然后再`examples`入口文件中引入上述文件，然后use调用一下install方法，全局注册。就可以在组件中使用封装好的loading组件了。
+
+然后编写md-loader
+
+```bash
+npm i markdown-it@8 markdown-it-anchor@5 markdown-it-chain@1 markdown-it-container@2 -D
+
+npm i -D transliteration // 汉字转拼音
+```
+
+详情见md-loader中的5个文件
+
+然后添加webpack配置，`build/config.js`，添加这些代码
+
+```js
+var path = require('path');
+
+//js忽略路径
+exports.jsexclude = /node_modules|utils\/popper\.js|utils\/date\.js/;
+
+exports.alias = {
+  main: path.resolve(__dirname, '../src'),
+  packages: path.resolve(__dirname, '../packages'),
+  examples: path.resolve(__dirname, '../examples'),
+  'me-ui': path.resolve(__dirname, '../'),
+};
+```
+
+添加module.rules
+```js
+  {
+    test: /\.md$/,
+    use: [
+      {
+        loader: 'vue-loader',
+        options: {
+          compilerOptions: {
+            preserveWhitespace: false,
+          },
+        },
+      },
+      {
+        loader: path.resolve(__dirname, './md-loader/index.js'),
+      },
+    ],
+  },
+```
+
+然后编写文档
+
+编写组件说明文档examples/docs/loading.md
+
+```bash
+npm i -D vue-router@3
+```
+
+`examples/router.js`中添加
+
+```js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+const routes = [
+  {
+    path: '/',
+    name: 'index',
+    component: (resolve) => require(['./components/HelloWorld.vue'], resolve)
+    // component: () => import('./components/HelloWorld.vue') 写成这个eslint报错
+  }
+]
+
+routes.push({
+  path: '/loading',
+  name: 'loading',
+  component: (resolve) => require(['./docs/loading.md'], resolve)
+})
+
+export default new VueRouter({
+  mode: 'hash',
+  base: __dirname,
+  routes
+})
+```
+
+然后添加demo-block，header，SideNav组件
+
+需要安装highlight.js,代码高亮效果
+```bash
+npm i -D highlight.js 
+```
+
+然后assets编写字体，样式，写入App.vue文件，引入入口文件。
+
+
+
+
+
 
 

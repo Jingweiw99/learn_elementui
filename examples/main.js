@@ -2,17 +2,17 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import MeUI from '../src/index'
-
 import hljs from 'highlight.js'
 import DemoBlock from './components/DemoBlock.vue'
-import SideNav from './components/side-nav'
+import MainHeader from './components/Header'
+import SideNav from './components/SideNav'
 
-// import 'highlight.js/styles/github.css'
-import 'highlight.js/styles/darcula.css'
-// import 'highlight.js/styles/arduino-light.css'
-// import 'highlight.js/styles/stackoverflow-light.css'
+import 'highlight.js/styles/github.css'
+// import 'highlight.js/styles/darcula.css'
+import './assets/styles/common.css'
 
 Vue.component('DemoBlock', DemoBlock)
+Vue.component('MainHeader', MainHeader)
 Vue.component('SideNav', SideNav)
 
 router.afterEach(() => {
@@ -25,9 +25,6 @@ router.afterEach(() => {
 })
 
 Vue.config.productionTip = false
-;[(1, 2, 3)].forEach((i) => {
-  console.log(i)
-})
 
 Vue.use(MeUI)
 

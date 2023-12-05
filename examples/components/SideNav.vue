@@ -4,6 +4,16 @@
   box-sizing: border-box;
   padding-right: 30px;
   transition: opacity 0.3s;
+  &.page-component__nav {
+    width: 240px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+    margin-top: 80px;
+    transition: padding-top 0.3s;
+  }
+
   &.is-fade {
     transition: opacity 3s;
   }
@@ -107,6 +117,12 @@
     margin: 0 0 0 -20px;
   }
 }
+
+.el-scrollbar {
+  position: relative;
+  overflow: auto;
+}
+
 .nav-dropdown-list {
   width: 120px;
   margin-top: -8px;
@@ -116,19 +132,13 @@
 }
 </style>
 <template>
-  <div class="side-nav" @mouseenter="isFade = false" :class="{ 'is-fade': isFade }" :style="navStyle">
+  <div class="side-nav page-component__nav el-scrollbar" @mouseenter="isFade = false" :class="{ 'is-fade': isFade }" :style="navStyle">
     <ul>
       <li class="nav-item" v-for="(item, key) in data" :key="key">
-        <a v-if="!item.path && !item.href" @click="expandMenu">{{ item.name }}</a>
-        <router-link v-if="item.path" active-class="active" :to="base + item.path" exact> {{ item.title || item.name }}</router-link>
-        <ul class="pure-menu-list sub-nav" v-if="item.children">
-          <li class="nav-item" v-for="(navItem, key) in item.children" :key="key">
-            <router-link class="" active-class="active" :to="base + navItem.path" exact>{{ navItem.title || navItem.name }}</router-link>
-          </li>
-        </ul>
+        <a v-if="!item.path && !item.href">{{ item.name }}</a>
         <template v-if="item.groups">
           <div class="nav-group" v-for="(group, key) in item.groups" :key="key">
-            <div class="nav-group__title" @click="expandMenu">
+            <div class="nav-group__title">
               {{ group.groupName }}
             </div>
             <ul class="pure-menu-list">
@@ -156,16 +166,10 @@ export default {
   },
   data() {
     return {
-      highlights: [],
-      navState: [],
-      isSmallScreen: false,
       isFade: false
     }
   },
   watch: {
-    '$route.path'() {
-      this.handlePathChange()
-    },
     isFade(val) {
       bus.$emit('navFade', val)
     }
@@ -173,65 +177,15 @@ export default {
   computed: {
     navStyle() {
       const style = {}
-      if (this.isSmallScreen) {
-        style.paddingBottom = '60px'
-      }
       style.opacity = this.isFade ? '0.5' : '1'
       return style
-    },
-    lang() {
-      return this.$route.meta.lang
     }
   },
-  methods: {
-    handleResize() {
-      this.isSmallScreen = document.documentElement.clientWidth < 768
-      this.handlePathChange()
-    },
-    handlePathChange() {
-      if (!this.isSmallScreen) {
-        this.expandAllMenu()
-        return
-      }
-      this.$nextTick(() => {
-        this.hideAllMenu()
-        let activeAnchor = this.$el.querySelector('a.active')
-        let ul = activeAnchor.parentNode
-        while (ul.tagName !== 'UL') {
-          ul = ul.parentNode
-        }
-        ul.style.height = 'auto'
-      })
-    },
-    hideAllMenu() {
-      ;[].forEach.call(this.$el.querySelectorAll('.pure-menu-list'), (ul) => {
-        ul.style.height = '0'
-      })
-    },
-    expandAllMenu() {
-      ;[].forEach.call(this.$el.querySelectorAll('.pure-menu-list'), (ul) => {
-        ul.style.height = 'auto'
-      })
-    },
-    expandMenu(event) {
-      if (!this.isSmallScreen) return
-      let target = event.currentTarget
-      if (!target.nextElementSibling || target.nextElementSibling.tagName !== 'UL') return
-      this.hideAllMenu()
-      event.currentTarget.nextElementSibling.style.height = 'auto'
-    }
-  },
+  methods: {},
   created() {
     bus.$on('fadeNav', () => {
       this.isFade = true
     })
-  },
-  mounted() {
-    this.handleResize()
-    window.addEventListener('resize', this.handleResize)
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize)
   }
 }
 </script>

@@ -1,10 +1,9 @@
 <template>
   <div id="app">
-    <div class="nav">
+    <main-header></main-header>
+    <div class="page-container">
       <side-nav :data="navsData"></side-nav>
-    </div>
-    <div class="router-view">
-      <router-view />
+      <div class="router-view"><router-view /></div>
     </div>
   </div>
 </template>
@@ -23,17 +22,16 @@ export default {
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
-  display: flex;
-  .nav {
-    width: 222px;
+
+  .page-container {
+    position: relative;
   }
   .router-view {
-    flex: 1;
+    padding-top: 80px;
+    padding-left: 270px;
+    padding-bottom: 100px;
+    box-sizing: border-box;
   }
 }
 </style>
